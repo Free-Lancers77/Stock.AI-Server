@@ -8,7 +8,7 @@ export const addProduct = async (Name, Price, Quantity, NbOfPieces, PricePerUnit
       const Product = new Product({Name, Price, Quantity, NbOfPieces, PricePerUnit});
   
       // Save the Product to the database
-      const result = await Product.save();
+      const result = await Products.save();
   
       console.log('Product added:', result);
     } catch (err) {

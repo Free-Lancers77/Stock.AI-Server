@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-<<<<<<< HEAD
+
 
 const ProductSchema = mongoose.Schema({
     Id: {
@@ -30,5 +30,4 @@ const ProductSchema = mongoose.Schema({
 }, { timestamps: true });
 
 export const Product = mongoose.model('Product', ProductSchema); // Changed 'Schema' to 'model'
-=======
->>>>>>> 8dbba73a840bb8db3d6320a254e2dad72280c0d7
+
