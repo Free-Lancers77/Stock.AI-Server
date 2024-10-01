@@ -5,10 +5,10 @@ import { Product } from "../models/ProductModel.js";
 export const addProduct = async (Name, Price, Quantity, NbOfPieces, PricePerUnit) => {
     try {
       // Create a new Product instance
-      const Product = new Product({Name, Price, Quantity, NbOfPieces, PricePerUnit});
+      const product = new Product({Name, Price, Quantity, NbOfPieces, PricePerUnit});
   
       // Save the Product to the database
-       await Product.save();
+       await product.save();
   
       console.log('Product added:', Product);
     } catch (err) {
