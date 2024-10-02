@@ -1,20 +1,41 @@
 import { Product } from "../models/ProductModel.js";
 
-
 // Function to add a new Product to the database
-export const addProduct = async (Name, Price, Quantity, NbOfPieces, PricePerUnit) => {
+export const addProduct = async (req, res) => {
+    const { id,Name, Price, Quantity, NbOfPieces, PricePerUnit} = req.body;
+
     try {
-      // Create a new Product instance
-      const product = new Product({Name, Price, Quantity, NbOfPieces, PricePerUnit});
-  
-      // Save the Product to the database
-       await product.save();
-  
-      console.log('Product added:', Product);
+        // Validate required fields
+        if (!Name || !Price || !id) {
+            return res.status(400).json({ message: "Name, Price, and SerieNumber are required" });
+        }
+
+        // Check if the SerieNumber already exists in the database
+        const existingProduct = await Product.findOne({ id });
+        if (existingProduct) {
+            return res.status(400).json({ message: "Product with this SerieNumber already exists" });
+        }
+
+        // Create a new Product instance
+        const product = await Product.create({
+            id,
+            Name,
+            Price,
+            Quantity,
+            NbOfPieces,
+            PricePerUnit
+        });
+
+        // Return the created product
+        console.log('Product added:', product);
+        return res.status(201).json(product);
+
     } catch (err) {
-      console.error('Error adding Product ',err);
+        console.error('Error adding product:', err);
+        return res.status(500).json({ message: 'Failed to add product', error: err.message });
     }
-  };
+};
+
 
   export const findItem = async (name) => {
     try {
