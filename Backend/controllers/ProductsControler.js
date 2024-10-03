@@ -2,7 +2,7 @@ import { Product } from "../models/ProductModel.js";
 
 // Function to add a new Product to the database
 export const addProduct = async (req, res) => {
-    const { id,Name, Price, Quantity, NbOfPieces, PricePerUnit} = req.body;
+    const { id,Name, Price, Quantity, NbOfPieces,PriceToSell} = req.body;
 
     try {
         // Validate required fields
@@ -15,7 +15,7 @@ export const addProduct = async (req, res) => {
         if (existingProduct) {
             return res.status(400).json({ message: "Product with this SerieNumber already exists" });
         }
-
+        const price=Price/NbOfPieces;
         // Create a new Product instance
         const product = await Product.create({
             id,
@@ -23,7 +23,8 @@ export const addProduct = async (req, res) => {
             Price,
             Quantity,
             NbOfPieces,
-            PricePerUnit
+            PricePerUnit:price,
+            Price_to_Sell:PriceToSell
         });
 
         // Return the created product
@@ -77,4 +78,20 @@ export const findItem = async (req,res) => {
         return res.status(500).json({ message: 'Failed to delete product', error: err.message });
       }
   };
-  
+  export const Pricing=async(req,res)=>{  
+    const {id,precentage_of_profit}=req.body;
+    try{
+        const target_product=await Product.findOne({id:id});
+        if(!target_product || precentage_of_profit<=0){
+          return res.status(400).json({success:false,message:"Invalid data"});
+        }
+        const new_price=target_product.Price*(1+precentage_of_profit/100);
+        target_product.Price_to_Sell=new_price;
+        await target_product.save();
+        return res.status(200).json({success:true,message:"Price updated successfully",product:target_product});
+    }
+    catch(Error){
+        console.log(Error);
+        return res.status(400).json({success:false,message:"Error"});
+    }
+  }

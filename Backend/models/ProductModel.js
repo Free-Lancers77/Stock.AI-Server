@@ -26,6 +26,10 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    Price_to_Sell: {
+        type: Number,
+        default: 0,
+    },
    
 }, { timestamps: true });
 
