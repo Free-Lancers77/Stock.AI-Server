@@ -1,6 +1,16 @@
 import { Product } from "../models/ProductModel.js";
 
 // Function to add a new Product to the database
+
+export const GetAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    return res.status(200).json(products);
+  } catch (err) {
+    console.error('Error getting products:', err);
+    return res.status(500).json({ message: 'Failed to get products', error: err.message });
+  }
+}
 export const addProduct = async (req, res) => {
     const { id,Name, Price, Quantity, NbOfPieces,PriceToSell} = req.body;
 
@@ -16,6 +26,7 @@ export const addProduct = async (req, res) => {
             return res.status(400).json({ message: "Product with this SerieNumber already exists" });
         }
         const price=Price/NbOfPieces;
+        const totalnub=NbOfPieces*Quantity;
         // Create a new Product instance
         const product = await Product.create({
             id,
@@ -24,7 +35,8 @@ export const addProduct = async (req, res) => {
             Quantity,
             NbOfPieces,
             PricePerUnit:price,
-            Price_to_Sell:PriceToSell
+            Price_to_Sell:PriceToSell,
+            TotalNbOfPieces:totalnub
         });
 
         // Return the created product

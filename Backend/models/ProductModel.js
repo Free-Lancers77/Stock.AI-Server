@@ -30,6 +30,10 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
+    TotalNbOfPieces: {
+        type: Number,
+        default: 0,
+    },
    
 }, { timestamps: true });
 
