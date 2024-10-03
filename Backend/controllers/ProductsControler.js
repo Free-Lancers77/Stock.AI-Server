@@ -16,6 +16,7 @@ export const addProduct = async (req, res) => {
             return res.status(400).json({ message: "Product with this SerieNumber already exists" });
         }
         const price=Price/NbOfPieces;
+        const totalnub=NbOfPieces*Quantity;
         // Create a new Product instance
         const product = await Product.create({
             id,
@@ -24,7 +25,8 @@ export const addProduct = async (req, res) => {
             Quantity,
             NbOfPieces,
             PricePerUnit:price,
-            Price_to_Sell:PriceToSell
+            Price_to_Sell:PriceToSell,
+            TotalNbOfPieces:totalnub
         });
 
         // Return the created product
@@ -94,4 +96,18 @@ export const findItem = async (req,res) => {
         console.log(Error);
         return res.status(400).json({success:false,message:"Error"});
     }
+  }
+  export const Update=async(req,res)=>{  
+   const place_holder=req.params.filter;
+   const id=req.body;
+   try{
+    const target=Product.findOne({id:id});
+    target.place_holder=place_holder;
+    
+
+   }catch(Error){
+       console.log(Error);
+       return res.status(400).json({success:false,message:"Error"});
+   }
+
   }
