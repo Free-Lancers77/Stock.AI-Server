@@ -8,13 +8,6 @@ router.post("/AddProduct", addProduct);
 router.post("/findProduct",findItem);
  
 
-router.post("/deleteProduct", async (req,res) => {
-    const {Name} = req.body;
-
-    const item = findItem(Name);
-    if(item){
-        deleteProduct(item._id);
-    }
-});
+router.post("/deleteProduct",deleteProduct)
   
 export default router;
