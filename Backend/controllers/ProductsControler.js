@@ -111,7 +111,6 @@ export const findItem = async (req,res) => {
   export const UpdateProduct = async (req, res) => {
     const { query: { filter, value }, body: updateData } = req;
 
-    // Validate incoming filter and value
     const result = validationResult(req);
     if (!result.isEmpty()) {
         return res.status(400).json({ errors: result.array() });
@@ -130,10 +129,8 @@ export const findItem = async (req,res) => {
             product[key] = updateData[key];
         });
 
-        // Save the updated product back to the database
         const updatedproduct = await product.save();
 
-        // Respond with the updated Product
         return res.status(200).json(updatedproduct);
     } catch (error) {
         console.error("Error updating product:", error);
