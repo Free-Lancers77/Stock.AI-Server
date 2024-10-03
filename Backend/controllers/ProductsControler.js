@@ -40,7 +40,7 @@ export const addProduct = async (req, res) => {
 
 export const findItem = async (req,res) => {
   const { Name } = req.body;
-  try {
+  try {mmmmm
     // Use `find` instead of `findOne` to return an array of matching products
     const products = await Product.find({ Name: { $regex: Name, $options: 'i' } });
 
@@ -95,3 +95,36 @@ export const findItem = async (req,res) => {
         return res.status(400).json({success:false,message:"Error"});
     }
   }
+
+  export const UpdateProduct = async (req, res) => {
+    const { query: { filter, value }, body: updateData } = req;
+
+    // Validate incoming filter and value
+    const result = validationResult(req);
+    if (!result.isEmpty()) {
+        return res.status(400).json({ errors: result.array() });
+    }
+
+    try {
+        // Find the product by the filter 
+        const product = await Product.findOne({ [filter]: value });
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        // Update the product's data with the new values from updateData
+        Object.keys(updateData).forEach((key) => {
+            product[key] = updateData[key];
+        });
+
+        // Save the updated product back to the database
+        const updatedproduct = await product.save();
+
+        // Respond with the updated Product
+        return res.status(200).json(updatedproduct);
+    } catch (error) {
+        console.error("Error updating product:", error);
+        return res.status(500).json({ message: "Error updating Product", error });
+    }
+};
