@@ -1,6 +1,16 @@
 import { Product } from "../models/ProductModel.js";
 
 // Function to add a new Product to the database
+
+export const GetAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    return res.status(200).json(products);
+  } catch (err) {
+    console.error('Error getting products:', err);
+    return res.status(500).json({ message: 'Failed to get products', error: err.message });
+  }
+}
 export const addProduct = async (req, res) => {
     const { id,Name, Price, Quantity, NbOfPieces,PriceToSell} = req.body;
 
@@ -97,6 +107,7 @@ export const findItem = async (req,res) => {
         return res.status(400).json({success:false,message:"Error"});
     }
   }
+
   export const Update=async(req,res)=>{  
    const place_holder=req.params.filter;
    const id=req.body;

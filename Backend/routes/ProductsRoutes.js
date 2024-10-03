@@ -1,4 +1,4 @@
-import { addProduct, deleteProduct, findItem, Pricing ,Update} from "../controllers/ProductsControler.js";
+import { addProduct, deleteProduct, findItem, Pricing ,Update,GetAllProducts} from "../controllers/ProductsControler.js";
 import express from "express";
 
 const router = express.Router();
@@ -11,5 +11,6 @@ router.post("/findProduct",findItem);
 router.post("/deleteProduct",deleteProduct);
 router.post("/Pricing",Pricing);
 router.post("/update/:filter",Update);
+router.get("/getAllProducts",GetAllProducts);
   
 export default router;
