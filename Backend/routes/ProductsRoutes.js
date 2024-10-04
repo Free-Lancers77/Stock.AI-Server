@@ -1,6 +1,6 @@
 
 
-import { addProduct, deleteProduct, findItem, Pricing, UpdateProduct, GetAllProducts,Sell,Jarde, AddQuantity} from "../controllers/ProductsControler.js";
+import { addProduct, deleteProduct, findItem, Pricing, UpdateProduct, GetAllProducts,Sell,Jarde, AddQuantity,GetStock} from "../controllers/ProductsControler.js";
 import express from "express";
 
 import { query} from 'express-validator';
@@ -21,5 +21,6 @@ router.get("/getAllProducts",GetAllProducts);
 router.post("/Sell",Sell);
 router.get("/Jarde",Jarde);
 router.post("/AddQuantity",AddQuantity);
+router.get("/Stock",GetStock);
   
 export default router;

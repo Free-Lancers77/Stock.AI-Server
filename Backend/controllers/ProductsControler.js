@@ -224,3 +224,24 @@ export const AddQuantity = async (req, res) =>{
     return res.status(500).json({ message: "Error adding quantity", error });
   }
 }
+export const GetStock=async(req,res)=>{
+  try{
+    const products = await Product.find(); 
+    return res.status(200).json({
+      success: true,
+     
+      
+      products: products.map(product => ({
+        
+        productName: product.Name,
+        Peices_Left: product.TotalNbOfPieces,
+        
+      })),
+      
+    });   
+  }
+  catch(err){
+    console.log(err);
+    return res.status(400).json({success:false,message:"Error"});
+  }
+}
