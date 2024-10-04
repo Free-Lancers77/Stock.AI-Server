@@ -160,6 +160,7 @@ export const Sell=async(req,res)=>{
     }
     targetproduct.TotalNbOfPieces=targetproduct.TotalNbOfPieces-number_to_sell;
     targetproduct.date_of_sell=Date.now();
+    targetproduct.Items_Sold+=number_to_sell
     const cash=targetproduct.Price_to_Sell*number_to_sell;
     targetproduct.Profit=cash;
     await targetproduct.save();
@@ -173,18 +174,32 @@ export const Sell=async(req,res)=>{
 
   }
 }
-export const Jarde=async(req,res)=>{
-  const products=await Product.find();
+export const Jarde = async (req, res) => {
+  try {
+    const products = await Product.find();  // Fetch all products from the database
+    let Totalcash = 0;                      // Use 'let' since we will modify it
+    const Jarde_Date = Date.now();          // Capture the current date
+    
+    products.forEach(product => {
+      Totalcash += product.Profit;          // Sum the profit of all products
+    });
 
-try{
-  for(product in products){
+    // If you want to return details of each product along with the total cash:
+    return res.status(200).json({
+      success: true,
+      message: "CashOut",
+      Totalcash: Totalcash,
+      products: products.map(product => ({
+        productId: product.id,
+        productName: product.Name,
+        itemsSold: product.Items_Sold,
+        profit: product.Profit
+      })),
+      Jarde_Date: Jarde_Date
+    });
 
+  } catch (err) {
+    console.error(err);                      // Log the error to the console
+    return res.status(400).json({ success: false, message: "Error" });
   }
-
-
-}
-catch(err){
-  console.log(err);
-  return res.status(400).json({success:false,message:"Error"});
-}
-}
+};
