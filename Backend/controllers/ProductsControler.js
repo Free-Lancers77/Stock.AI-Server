@@ -145,4 +145,28 @@ export const findItem = async (req,res) => {
   };
   
 
-    
+export const Sell=async(req,res)=>{
+  const {id,number_to_sell}=req.body;
+  try{
+    if(!id || !number_to_sell){
+      return res.status(400).json({success:false,message:"Invalid data"});
+    }
+    const targetproduct=await Product.findOne({id:id});
+    if(!targetproduct || number_to_sell<=0){
+      return res.status(400).json({success:false,message:"Invalid data"});
+    }
+    if(number_to_sell>targetproduct.TotalNbOfPieces){
+      return res.status(400).json({success:false,message:"amount pf stock is not enough"});
+    }
+    targetproduct.TotalNbOfPieces=targetproduct.TotalNbOfPieces-number_to_sell;
+    await targetproduct.save();
+    const cash=targetproduct.Price_to_Sell*number_to_sell;
+    return res.status(200).json({success:true,message:"Product sold successfully",product:targetproduct,cash});
+ 
+  }
+  catch(err){
+    console.log(err);
+    return res.status(400).json({success:false,message:"Error"});
+
+  }
+}
