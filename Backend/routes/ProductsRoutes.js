@@ -1,6 +1,7 @@
 
 import { addProduct, deleteProduct, findItem, Pricing, UpdateProduct, GetAllProducts} from "../controllers/ProductsControler.js";
 import express from "express";
+import { query} from 'express-validator';
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.post("/findProduct",findItem);
 router.post("/deleteProduct",deleteProduct);
 router.post("/Pricing",Pricing);
 
-router.post("/api/UpdateProduct", query('filter').isString(), UpdateProduct);
+router.post("/UpdateProduct", query('filter').isString(), UpdateProduct);
 
 router.get("/getAllProducts",GetAllProducts);
   

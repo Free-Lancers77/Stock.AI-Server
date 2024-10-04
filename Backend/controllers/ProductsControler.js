@@ -1,5 +1,5 @@
 import { Product } from "../models/ProductModel.js";
-
+import { validationResult } from "express-validator";
 // Function to add a new Product to the database
 
 export const GetAllProducts = async (req, res) => {
@@ -52,7 +52,7 @@ export const addProduct = async (req, res) => {
 
 export const findItem = async (req,res) => {
   const { Name } = req.body;
-  try {mmmmm
+  try {
     // Use `find` instead of `findOne` to return an array of matching products
     const products = await Product.find({ Name: { $regex: Name, $options: 'i' } });
 
@@ -109,51 +109,40 @@ export const findItem = async (req,res) => {
   }
 
   export const UpdateProduct = async (req, res) => {
-    const { query: { filter, value }, body: updateData } = req;
-
+    // Accessing the query parameters using req.query
+    const { filter, value } = req.query;
+    const updateData = req.body;
+  
     const result = validationResult(req);
     if (!result.isEmpty()) {
-        return res.status(400).json({ errors: result.array() });
+      return res.status(400).json({ errors: result.array() });
     }
-
-
-  }
-  export const Sell=async(req,res)=>{
-    try{
-        const {id,numb_to_sell}=req.body;
-        const target=await Product.findOne({id:id});
-        target.TotalNbOfPieces=target.TotalNbOfPieces-numb_to_sell;
-        const profit=numb_to_sell*target.Price_to_Sell;
-        await target.save();
-        return res.status(200).json({success:true,message:"Product sold successfully",product:target,profit});
-
+  
+    if (!filter || !value) {
+      return res.status(400).json({ message: "Both filter and value are required for updating a product." });
     }
-    catch(err){
-        console.log(err);
-        return res.status(400).json({success:false,message:"Error"});
-    }
-  }
-
+  
     try {
-        // Find the product by the filter 
-        const product = await Product.findOne({ [filter]: value });
-
-        if (!product) {
-            return res.status(404).json({ message: "Product not found" });
-        }
-
-        // Update the product's data with the new values from updateData
-        Object.keys(updateData).forEach((key) => {
-            product[key] = updateData[key];
-        });
-
-        const updatedproduct = await product.save();
-
-        return res.status(200).json(updatedproduct);
+      // Find the product by the filter (e.g., id, Name) and value
+      const product = await Product.findOne({ [filter]: value });
+  
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
+  
+      // Update the product's data with the new values from updateData
+      Object.keys(updateData).forEach((key) => {
+        product[key] = updateData[key];
+      });
+  
+      const updatedProduct = await product.save();
+  
+      return res.status(200).json(updatedProduct);
     } catch (error) {
-        console.error("Error updating product:", error);
-        return res.status(500).json({ message: "Error updating Product", error });
+      console.error("Error updating product:", error);
+      return res.status(500).json({ message: "Error updating product", error });
     }
+  };
+  
 
-
-
+    
