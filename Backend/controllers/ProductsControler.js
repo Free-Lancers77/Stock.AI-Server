@@ -122,3 +122,18 @@ export const findItem = async (req,res) => {
    }
 
   }
+  export const Sell=async(req,res)=>{
+    try{
+        const {id,numb_to_sell}=req.body;
+        const target=await Product.findOne({id:id});
+        target.TotalNbOfPieces=target.TotalNbOfPieces-numb_to_sell;
+        const profit=numb_to_sell*target.Price_to_Sell;
+        await target.save();
+        return res.status(200).json({success:true,message:"Product sold successfully",product:target,profit});
+
+    }
+    catch(err){
+        console.log(err);
+        return res.status(400).json({success:false,message:"Error"});
+    }
+  }
