@@ -34,7 +34,22 @@ const ProductSchema = mongoose.Schema({
         type: Number,
         default: 0,
     },
-   
+   Items_Sold: {
+       type: Number,
+       default: 0,
+   },
+   date_of_purchase: {
+       type: Date,
+       default: Date.now
+   },
+   date_of_sell:{
+       type: Date,
+       default:null
+   },
+   Profit:{
+       type:Number,
+       default:0
+   }
 }, { timestamps: true });
 
 export const Product = mongoose.model('Product', ProductSchema);

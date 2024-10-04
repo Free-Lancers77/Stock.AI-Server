@@ -159,9 +159,12 @@ export const Sell=async(req,res)=>{
       return res.status(400).json({success:false,message:"amount pf stock is not enough"});
     }
     targetproduct.TotalNbOfPieces=targetproduct.TotalNbOfPieces-number_to_sell;
-    await targetproduct.save();
+    targetproduct.date_of_sell=Date.now();
     const cash=targetproduct.Price_to_Sell*number_to_sell;
-    return res.status(200).json({success:true,message:"Product sold successfully",product:targetproduct,cash});
+    targetproduct.Profit=cash;
+    await targetproduct.save();
+  
+    return res.status(200).json({success:true,message:"Product sold successfully",product:targetproduct});
  
   }
   catch(err){
@@ -169,4 +172,19 @@ export const Sell=async(req,res)=>{
     return res.status(400).json({success:false,message:"Error"});
 
   }
+}
+export const Jarde=async(req,res)=>{
+  const products=await Product.find();
+
+try{
+  for(product in products){
+
+  }
+
+
+}
+catch(err){
+  console.log(err);
+  return res.status(400).json({success:false,message:"Error"});
+}
 }
