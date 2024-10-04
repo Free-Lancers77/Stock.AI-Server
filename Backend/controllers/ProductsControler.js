@@ -203,3 +203,24 @@ export const Jarde = async (req, res) => {
     return res.status(400).json({ success: false, message: "Error" });
   }
 };
+
+export const AddQuantity = async (req, res) =>{
+  const { id , newQuantity}= req.body;
+
+  try{
+    const item = await Product.findOne({ id: id }); 
+    if (!item) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+    item.Quantity += newQuantity;
+
+    const updatedQuantity = await item.save();
+
+    console.log("Quantity added successfully");
+    return res.status(200).json(updatedQuantity);
+  }
+  catch(error){
+    console.error("Error adding quantity:", error);
+    return res.status(500).json({ message: "Error adding quantity", error });
+  }
+}
