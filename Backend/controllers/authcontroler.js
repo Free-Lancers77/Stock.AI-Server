@@ -109,13 +109,14 @@ export const login=async(req,res)=>{
     }   
 
     //step 3 generate the token
-    generateToken(res,user._id);
+     const token=generateToken(res,user._id);
     //step 4 update the last login
     user.LastLogin=Date.now();
     await user.save();
     return res.status(200).json({
         success:true,
         message:"User logged in successfully",
+        token,
         user:{
             ...user._doc,
             password:undefined

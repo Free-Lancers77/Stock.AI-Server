@@ -3,8 +3,9 @@ import { validationResult } from "express-validator";
 // Function to add a new Product to the database
 
 export const GetAllProducts = async (req, res) => {
-  try {
+  try { 
     const products = await Product.find();
+    console.log('Products:', products);
     return res.status(200).json(products);
   } catch (err) {
     console.error('Error getting products:', err);
@@ -36,7 +37,8 @@ export const addProduct = async (req, res) => {
             NbOfPieces,
             PricePerUnit:price,
             Price_to_Sell:PriceToSell,
-            TotalNbOfPieces:totalnub
+            TotalNbOfPieces:totalnub,
+            userId: req.user.userId
         });
 
         // Return the created product
@@ -162,7 +164,7 @@ export const Sell=async(req,res)=>{
     targetproduct.date_of_sell=Date.now();
     targetproduct.Items_Sold+=number_to_sell
     const cash=targetproduct.Price_to_Sell*number_to_sell;
-    targetproduct.Profit=cash;
+    targetproduct.Profit+=cash;
     await targetproduct.save();
   
     return res.status(200).json({success:true,message:"Product sold successfully",product:targetproduct});
@@ -213,6 +215,9 @@ export const AddQuantity = async (req, res) =>{
       return res.status(404).json({ message: "Product not found" });
     }
     item.Quantity += newQuantity;
+    const x=item.Quantity*item.NbOfPieces
+    item.TotalNbOfPieces =  x- item.Items_Sold;
+
 
     const updatedQuantity = await item.save();
 
