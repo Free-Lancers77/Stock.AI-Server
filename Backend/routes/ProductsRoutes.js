@@ -1,6 +1,6 @@
 
 
-import { addProduct, deleteProduct, findItem, Pricing, UpdateProduct, GetAllProducts,Sell,Jarde, AddQuantity,GetStock} from "../controllers/ProductsControler.js";
+import { addProduct, deleteProduct, findItem, Pricing, UpdateProduct, GetAllProducts,Sell,Jarde, AddQuantity,GetStock,MonthlyJarde} from "../controllers/ProductsControler.js";
 import express from "express";
 import { authenticate } from "../middleware/verifytoken.js";
 import { query} from 'express-validator';
@@ -10,6 +10,7 @@ const router = express.Router();
 router.post("/AddProduct",authenticate, addProduct);
 
 router.post("/findProduct",authenticate,findItem);
+router.get("/MonthlyJarde",authenticate,MonthlyJarde);
  
 
 router.post("/deleteProduct",authenticate,deleteProduct);

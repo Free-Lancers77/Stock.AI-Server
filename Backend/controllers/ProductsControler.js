@@ -250,3 +250,41 @@ export const GetStock=async(req,res)=>{
     return res.status(400).json({success:false,message:"Error"});
   }
 }
+export const MonthlyJarde = async (req, res) => {
+  try {
+    // Get the current date and the start of the current month
+    const currentDate = new Date();
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+
+    // Fetch all products sold during the current month
+    const products = await Product.find({
+      date_of_sell: { $gte: startOfMonth, $lte: currentDate }  // Filter by products sold this month
+    });
+
+    let Totalcash = 0;
+    const Jarde_Date = Date.now();  // Capture the current date
+
+    // Sum the profits of all products sold this month
+    products.forEach(product => {
+      Totalcash += product.Profit;
+    });
+
+    // Return details of each product sold this month, along with the total cash
+    return res.status(200).json({
+      success: true,
+      message: "Monthly CashOut",
+      Totalcash: Totalcash,
+      products: products.map(product => ({
+        productId: product.id,
+        productName: product.Name,
+        itemsSold: product.Items_Sold,
+        profit: product.Profit
+      })),
+      Jarde_Date: Jarde_Date
+    });
+
+  } catch (err) {
+    console.error(err);  // Log the error to the console
+    return res.status(400).json({ success: false, message: "Error" });
+  }
+};
