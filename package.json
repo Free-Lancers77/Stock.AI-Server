@@ -23,9 +23,11 @@
     "mailtrap": "^3.4.0",
     "mailtrap-client": "^1.1.1",
     "mongoose": "^8.6.3",
-    "mongoose-sequence": "^6.0.1"
+    "mongoose-sequence": "^6.0.1",
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.7"
+    "nodemon": "^3.1.7",
+    "tailwindcss": "^3.4.13"
   }
 }
