@@ -4,6 +4,7 @@ import express from "express";
 import { verifytoken } from "../middleware/verifytoken.js";
 const router = express.Router();
 //this will verify the token when the user is logged in and refresh the page
+
 router.get("/check_auth",verifytoken,checkauth);
 router.post("/signup", signup);
   

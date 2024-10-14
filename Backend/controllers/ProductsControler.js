@@ -13,7 +13,7 @@ export const GetAllProducts = async (req, res) => {
   }
 }
 export const addProduct = async (req, res) => {
-    const { id,Name, Price, Quantity, NbOfPieces,PriceToSell} = req.body;
+    const { id,Name, Price, Quantity, NbOfPieces} = req.body;
 
     try {
         // Validate required fields
@@ -36,7 +36,7 @@ export const addProduct = async (req, res) => {
             Quantity,
             NbOfPieces,
             PricePerUnit:price,
-            Price_to_Sell:PriceToSell,
+            
             TotalNbOfPieces:totalnub,
             userId: req.user.userId
         });

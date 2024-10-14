@@ -19,11 +19,21 @@ const swaggerOptions = {
         url: 'http://localhost:5000', // Change this to your production URL when deployed
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT', // Optional
+        },
+      },
+    },
   },
   apis: [
     './routes/*.js',
     './controllers/*.js',
-    path.join(__dirname, '../swagger documentation/userdoc.js'), // Correctly reference userdoc.js
+    path.join(__dirname, '../swagger documentation/userdoc.js'),
+    path.join(__dirname, '../swagger documentation/product.js'), // Correctly reference userdoc.js
   ], // Paths to your route and controller files
 };
 

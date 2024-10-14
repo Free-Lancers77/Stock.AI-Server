@@ -152,10 +152,17 @@
 
 /**
  * @swagger
- * /api/auth/reset_password/:token:
+ * /api/auth/reset_password/{token}:
  *   post:
- *     summary: To update the pass   
+ *     summary: To update the password
  *     tags: [User]
+ *     parameters:
+ *       - in: path
+ *         name: token
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Token to reset the password
  *     requestBody:
  *       required: true
  *       content:
@@ -165,12 +172,10 @@
  *             properties:
  *               password:
  *                 type: string
- *              
- *              
+ *                 description: The new password
  *     responses:
  *       200:
- *         description: pass updated successfully
+ *         description: Password updated successfully
  *       400:
  *         description: Bad request, missing or invalid data
  */
-
