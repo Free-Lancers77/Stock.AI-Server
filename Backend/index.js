@@ -5,6 +5,7 @@ import ProductsRoutes from "./routes/ProductsRoutes.js";
 import cookieParser from "cookie-parser";
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocs from './swagger documentation/swagger.js';
+import cors from "cors";
 
 //i used this to make the .env file work
 //im using import statement when i modfied in the pacakge.json and put type:module
@@ -12,9 +13,12 @@ import dotnev from "dotenv";
 /////////////////////////////////////////////////////////////////
 dotnev.config();
 const app = express();
+
 const Port=process.env.PORT || 5000;
+app.use(cors({origin: "http://localhost:5174",credentials: true}));
 app.use(express.json());
 app.use(cookieParser());
+
 app.use("/api/auth",authRoutes);
 app.use("/api/products",ProductsRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
