@@ -25,7 +25,7 @@ export const sendWelcomeEmail=async(email,name)=>{
        const resp= await Mailtrapclient.send({
             from: sender,
     to: recep,
-    template_uuid: "5d35e4e0-2a14-4c60-8f0d-ef2586fc622d",
+    template_uuid: "6dcf5643-0038-4d9d-ba82-4a20ef8629e6",
     template_variables: {
       "company_info_name": "Stack.ai Company",
       "name": name

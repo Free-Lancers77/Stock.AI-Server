@@ -5,7 +5,7 @@ import { verifytoken } from "../middleware/verifytoken.js";
 const router = express.Router();
 //this will verify the token when the user is logged in and refresh the page
 
-router.get("/check_auth",verifytoken,checkauth);
+router.get("/check-auth`",verifytoken,checkauth);
 router.post("/signup", signup);
   
 router.post("/verify_emaile",verifyEmaile);
@@ -18,7 +18,7 @@ router.post("/logout", async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 });
-router.post("/forget_password",forgetPassword);
-router.post("/reset_password/:token", resetpassword);
+router.post("/forgot-password",forgetPassword);
+router.post("/reset-password/:token", resetpassword);
   
 export default router;
