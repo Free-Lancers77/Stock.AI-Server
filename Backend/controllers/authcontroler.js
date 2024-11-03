@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 import crypto from "crypto";
 import { generateToken } from "../utils/generateToken.js";
 import { sendVerificationToken,sendWelcomeEmail ,sendPasswordResetEmail,sendResetSucessEmail} from "../mailtrap/email.js";
-import { ExpressValidator } from "express-validator";
+
 
 
 export const signup=async(req,res)=>{

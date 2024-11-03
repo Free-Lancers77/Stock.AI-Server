@@ -38,7 +38,7 @@ export const addProduct = async (req, res) => {
             PricePerUnit:price,
             
             TotalNbOfPieces:totalnub,
-            userId: req.user.userId
+            
         });
 
         // Return the created product
@@ -288,3 +288,24 @@ export const MonthlyJarde = async (req, res) => {
     return res.status(400).json({ success: false, message: "Error" });
   }
 };
+ export const Overview=async(req,res)=>{
+  const products= await Product.find();
+  try{
+    let Total_cash=0;
+    let  numb_of_products=0;
+    products.forEach(product=>{
+      Total_cash+=product.Profit;
+      numb_of_products+=1
+    })
+    return res.status(200).json({
+      success:true,
+      Total_cash,
+      numb_of_products
+    })
+
+  }
+  catch(error){
+    console.log(error);
+    return res.status(400).json({success:false,message:"Error"});
+  }
+}
